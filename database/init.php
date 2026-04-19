@@ -44,10 +44,10 @@ function initDatabase(PDO $pdo): void {
     $stmt = $pdo->query("SELECT COUNT(*) FROM users");
     if ($stmt->fetchColumn() == 0) {
         $pass = password_hash('admin123', PASSWORD_DEFAULT);
-        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Admin Sistem', 'admin@absenku.com', '$pass', 'admin')");
+        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Admin Sistem', 'admin@absenku.test', '$pass', 'admin')");
         $dosen = password_hash('dosen123', PASSWORD_DEFAULT);
-        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Dr. Ahmad Fauzi', 'ahmad@kampus.ac.id', '$dosen', 'dosen')");
-        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Ir. Siti Rahayu', 'siti@kampus.ac.id', '$dosen', 'dosen')");
+        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Dr. Ahmad Fauzi', 'dosen@absenku.test', '$dosen', 'dosen')");
+        $pdo->exec("INSERT INTO users (name, email, password, role) VALUES ('Ir. Siti Rahayu', 'siti@absenku.test', '$dosen', 'dosen')");
 
         $pdo->exec("INSERT INTO matakuliah (kode, nama, sks, dosen_id) VALUES ('IF101', 'Pemrograman Web', 3, 2)");
         $pdo->exec("INSERT INTO matakuliah (kode, nama, sks, dosen_id) VALUES ('IF102', 'Basis Data', 3, 3)");

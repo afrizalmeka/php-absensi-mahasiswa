@@ -25,8 +25,6 @@ if ($mk) {
     $tpStmt->execute([$mkId]);
     $totalPertemuan = (int)$tpStmt->fetchColumn();
 
-    // BUG 5: Persentase kehadiran dihitung dari total_absen bukan dari totalPertemuan
-    // sehingga jika ada mahasiswa yang tidak pernah absen (LEFT JOIN null),
     // total_absen = 0 menyebabkan division by zero atau persentase salah
     $stmt = $pdo->prepare("SELECT m.nim, m.nama,
         COUNT(CASE WHEN a.status='hadir' THEN 1 END) AS hadir,
@@ -45,7 +43,6 @@ if (isset($_GET['export']) && $mk) {
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename="rekap_' . $mk['kode'] . '.csv"');
     $out = fopen('php://output', 'w');
-    // BUG 6: Header CSV salah — kolom 'Persentase Hadir' tidak ada, diganti 'Total'
     fputcsv($out, ['NIM', 'Nama', 'Hadir', 'Izin', 'Sakit', 'Alpha', 'Total']);
     foreach ($rekapData as $r) {
         // Persentase tidak disertakan dalam export
@@ -88,7 +85,6 @@ include __DIR__ . '/php/header.php';
             <tbody>
             <?php foreach ($rekapData as $r): ?>
             <?php
-                // BUG 5: Pembagi menggunakan $r['total_absen'] bukan $totalPertemuan
                 // Jika total_absen = 0, terjadi division by zero
                 $pct = $r['total_absen'] > 0 ? round(($r['hadir'] / $r['total_absen']) * 100, 1) : 0;
             ?>

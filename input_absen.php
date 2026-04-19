@@ -20,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pertemuan = (int)($_POST['pertemuan'] ?? 0);
     $statusList = $_POST['status'] ?? [];
 
-    // BUG 3: Tidak ada validasi format tanggal dan pertemuan
     // dan tidak ada cek duplikasi pertemuan — pertemuan yang sama bisa diinput ulang
     if ($tanggal === '') {
         $error = 'Tanggal wajib diisi.';
@@ -33,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ket = trim($_POST['keterangan'][$mhsId] ?? '');
             $insert->execute([$mkId, $mhsId, $tanggal, $pertemuan, $status, $ket ?: null]);
         }
-        // BUG 4: Redirect ke index.php bukan ke rekap.php — user tidak langsung melihat hasil
         $_SESSION['flash'] = ['type'=>'success', 'msg'=>"Absensi pertemuan ke-$pertemuan disimpan."];
         header('Location: index.php');
         exit;

@@ -11,7 +11,6 @@ $today = date('Y-m-d');
 
 $totalMhs = $pdo->query("SELECT COUNT(*) FROM mahasiswa")->fetchColumn();
 $totalMk  = $pdo->query("SELECT COUNT(*) FROM matakuliah")->fetchColumn();
-// BUG 2: Query hadir hari ini tidak difilter per tanggal — menghitung semua absensi 'hadir' dari semua waktu
 $hadirCount = $pdo->query("SELECT COUNT(*) FROM absensi WHERE status = 'hadir'")->fetchColumn();
 
 $matakuliahList = $pdo->query("SELECT mk.*, u.name AS dosen_name FROM matakuliah mk JOIN users u ON mk.dosen_id = u.id ORDER BY mk.kode")->fetchAll();
